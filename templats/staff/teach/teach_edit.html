@@ -1,0 +1,200 @@
+{% extends 'inc/base_site.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ 'Teach Update page' }}</div>
+                   
+                <div class="card-body">
+                    <form method="POST" action=".">
+                        {% csrf_token %}
+
+                        <legend> Update Teach Information </legend>
+                        {% for field in form.visible_fields %}
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-md-right"> <strong>{{ field.label_tag }}</strong> </label>
+                            <div class="col-md-8">
+                                {% if form.is_bound %}
+                                    {% if field.errors %}
+                                        {% if field.name == 'teacherID' %}
+                                            {% render_field field class="col-md-4 form-control is-invalid" %}
+                                            {% elif field.name == 'subjectID' %}
+                                            <div class="col-10 form-control is-invalid">
+                                                {% for g in grade %}
+                                                    <strong>Grade {{ g }}: </strong>
+                                                    {% for s in subject %}
+                                                        {% if g == s.grade %}
+                                                            {% for f in field %}
+                                                                {% if f.choice_label == s.fullname %}
+                                                                    {% render_field f.tag %} {{ s.s_name }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <br>
+                                                {% endfor %}
+                                            </div>
+                                        {% elif field.name == 'roomID' %}
+                                            <div class="col-10 form-control is-invalid">
+                                                {% for g in grade %}
+                                                    <strong>Grade {{ g }}: </strong>
+                                                    {% for r in room %}
+                                                        {% if g == r.grade %}
+                                                            {% for f in field %}
+                                                                {% if f.choice_label == r.fullname %}
+                                                                    {% render_field f.tag %} {{ r.r_name|upper }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <br>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        {% for error in field.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% if field.name == 'teacherID' %}
+                                            {% render_field field class="col-md-4 form-control is-valid" %}
+                                        {% elif field.name == 'subjectID' %}
+                                            <div class="col-10 form-control is-valid">
+                                                {% for g in grade %}
+                                                    <strong>Grade {{ g }}: </strong>
+                                                    {% for s in subject %}
+                                                        {% if g == s.grade %}
+                                                            {% for f in field %}
+                                                                {% if f.choice_label == s.fullname %}
+                                                                    {% render_field f.tag %} {{ s.s_name }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <br>
+                                                {% endfor %}
+                                            </div>
+                                        {% elif field.name == 'roomID' %}
+                                            <div class="col-10 form-control is-valid">
+                                                {% for g in grade %}
+                                                    <strong>Grade {{ g }}: </strong>
+                                                    {% for r in room %}
+                                                        {% if g == r.grade %}
+                                                            {% for f in field %}
+                                                                {% if f.choice_label == r.fullname %}
+                                                                    {% render_field f.tag %} {{ r.r_name|upper }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <br>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                {% else %}
+                                    {% if field.name == 'teacherID' %}
+                                        {% render_field field class="col-md-4 form-control" %}
+                                    {% elif field.name == 'subjectID' %}
+                                        {% for g in grade %}
+                                            <strong>Grade {{ g }}: </strong>
+                                            {% for s in subject %}
+                                                {% if g == s.grade %}
+                                                    {% for f in field %}
+                                                        {% if f.choice_label == s.fullname %}
+                                                            {% render_field f.tag %} {{ s.s_name }}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            <br>
+                                        {% endfor %}
+                                    {% elif field.name == 'roomID' %}
+                                        {% for g in grade %}
+                                            <strong>Grade {{ g }}: </strong>
+                                            {% for r in room %}
+                                                {% if g == r.grade %}
+                                                    {% for f in field %}
+                                                        {% if f.choice_label == r.fullname %}
+                                                            {% render_field f.tag %} {{ r.r_name|upper }}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            <br>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+                
+                                {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-11">
+                                {% if object %}
+                                    <a href="#delete" class="btn btn-danger" data-toggle="modal">{{ 'Delete' }}</a>
+                                {% endif %}
+                                <button type="submit" name='save' value="save" class="btn btn-primary" style="float: right;">
+                                {{ 'Save' }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>   
+
+{% if object %}
+<div class="modal modal-danger fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLable">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4  id="myModalLable">Delete Confirmation</h4>
+                </div>
+                
+                <div class="modal-body">
+                    <p class="text-center">Are you sure you want to delete the selected grade? All of the following objects and their related items will be deleted:</p>
+                    <strong>Summary</strong>
+                
+                        <ul>
+                            <li>Teach: 1</li>
+                            <li>Subjects: {{ subjects }}</li>
+                            <li>Rooms: {{ rooms }}</li>
+                        </ul>
+                    <strong>Objects</strong>
+                    <ul>
+                        <li>Teacher: <a href="{% url 'staff:t-edit' object.id%}">{{ object.teacherID }}</a> </li>
+                        <ul>
+                            {% for obj in object.subjectID.all %}
+                                <li>Subject relationship: {{obj.s_name}}</li>
+                            {% endfor %}
+                            {% for obj in object.roomID.all %}
+                                <li>Room relationship: {{obj}}</li>
+                            {% endfor %}
+                        </ul>
+                    </ul>
+                </div>
+                <form method="POST" action="{% url 'staff:t-delete' object.id%}">
+                {% csrf_token %}
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-dismiss="modal">No, Cancle</button>
+                        <button type="submit" class="btn btn-warning">Yes, I'm sure</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

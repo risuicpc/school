@@ -1,0 +1,49 @@
+{% extends 'authentication/index.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <table class="table table-striped table-bordered-bottom table-responsive">
+            <thead class="thead">
+                <th><strong>No.</strong><t/h>
+                <th> <strong>Full Name</strong></th>
+                <th> <strong>User Name</strong></th>
+                <th> <strong>Gender</strong></th>
+                <th><strong>Subject</strong></th>
+                <th><strong>Room</strong></th>
+            </thead>
+            <tbody>
+                {% if teacher %}
+                    {% for t in teacher %}
+                    <tr>
+                        <td> {{ forloop.counter }} </td>
+                        {% if t in teach %}
+                            {% for u in object_list %}
+                                {% if t == u.teacherID %}
+                                <td> <a href="{% url 'staff:t-edit' u.id %}">{{ u.teacherID }}</a> </td>
+                                <td>{{ t.u_name }}</td>
+                                <td>{{ t.get_sex_display }}</td>
+                                <td>  {% for subject in u.subjectID.all %} {% if forloop.counter > 1 %}, {% endif %}{{ subject }}{% endfor %} </td>
+                                <td> {% for room in u.roomID.all %}{% if forloop.counter > 1 %}, {% endif %} {{ room }} {% endfor %} </td>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <td> <a href="{% url 'staff:t-edit' t.id %}">{{ t.fullname }}</a> </td>
+                            <td>{{ t.u_name }}</td>
+                            <td>{{ t.get_sex_display }}</td>
+                            <td></td>
+                            <td></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <p id="no-user">Teacher Not Register  </p>
+                {% endif %} 
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}

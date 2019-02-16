@@ -1,0 +1,72 @@
+{% if request.user.admin %}
+<li class="heading">ADMIN FRATURES</li>
+<li>
+    <a href="javascript:;"><i class="sidebar-item-icon fa fa-user"></i>
+        <span class="nav-label">User UI</span><i class="fa fa-angle-left arrow"></i></a>
+    <ul class="nav-2-level collapse">
+        <li>
+            <a href="{% url 'list' %}">VIEW ALL USER</a>
+        </li>
+        
+        <li>
+            <a href="{% url 'create' %}">REGISTRATION</a>
+        </li>
+    </ul>
+</li>
+<li>
+    <a href="javascript:;"><i class="sidebar-item-icon fa fa-bookmark"></i>
+        <span class="nav-label">Grade UI</span><i class="fa fa-angle-left arrow"></i></a>
+    <ul class="nav-2-level collapse">
+        <li>
+            <a href="{% url 'staff:list' %}">VIEW GRADE</a>
+        </li>
+        
+        <li>
+            <a href="{% url 'staff:create' %}">ADD GRADE</a>
+        </li>
+    </ul>
+</li>
+<li>
+    <a href="javascript:;"><i class="sidebar-item-icon fa fa-bookmark"></i>
+        <span class="nav-label">Room UI</span><i class="fa fa-angle-left arrow"></i></a>
+    <ul class="nav-2-level collapse">
+        <li>
+            <a href="{% url 'staff:r-list' %}">VIEW ROOM</a>
+        </li>
+        
+        <li>
+            <a href="{% url 'staff:r-create' %}">ADD ROOM</a>
+        </li>
+    </ul>
+</li>
+<li>
+    <a href="javascript:;"><i class="sidebar-item-icon fa fa-book"></i>
+        <span class="nav-label">Subject UI</span><i class="fa fa-angle-left arrow"></i></a>
+    <ul class="nav-2-level collapse">
+        <li>
+            <a href="{% url 'staff:s-list' %}">VIEW SUBJECT</a>
+        </li>
+        
+        <li>
+            <a href="{% url 'staff:s-create' %}">ADD SUBJECT</a>
+        </li>
+    </ul>
+</li>
+<li>
+    <a href="{% url 'staff:t-list' %}"><i class="sidebar-item-icon fa fa-smile-o"></i>
+        <span class="nav-label">Teach</span>
+    </a>
+</li>
+{% endif %}
+{% if request.user.is_teacher %}
+<li class="heading">TEACHER FRATURES</li>
+
+{% endif %}
+{% if request.user.is_student %}
+<li class="heading">STUDENT FRATURES</li>
+
+{% endif %}
+{% if request.user.is_parent %}
+<li class="heading">PARENT FRATURES</li>
+
+{% endif %}

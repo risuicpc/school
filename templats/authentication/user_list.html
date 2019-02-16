@@ -1,0 +1,96 @@
+{% extends 'authentication/index.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-10">
+            <table class="table table-striped table-bordered-bottom table-responsive">
+                <thead class="thead">
+                    <td>No.</td>
+                    <th>FIRST NAME</th>
+                    <th>MIDDEL NAME</th>
+                    <th>LAST NAME</th>
+                    <th>GENDER</th>
+                    <th>USEER NAME</th>
+                    <th>EMSIL</th>
+                    <th>PHONE</th>
+                </thead>
+                <tbody>
+                    {% if object_list %}
+                        {% for u in object_list %}
+                        <tr>
+                            <td> {{ forloop.counter }}</td>
+                            <td><a href="{% url 'edit' u.id %}">{{u.f_name }}</a> </td>
+                            <td>{{ u.m_name }}</td>
+                            <td>{{ u.l_name }}</td>
+                            <td>{{u.get_sex_display}}</td>
+                            <td>{{ u.u_name }}</td>
+                            {% if u.email %}
+                                <td>{{ u.email }}</td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            <td>{{ u.phone }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                    <p id="no-user">
+                        {% if choices.sex.All.selected %}Male or Female 
+                        {% elif choices.sex.Male.selected %}Male 
+                        {% elif choices.sex.Female.selected %}Female 
+                        {% endif %}
+                        {% if choices.role.all.selected %} User
+                        {% elif choices.role.admin.selected %} Admin
+                        {% elif choices.role.teacher.selected %} Teacher
+                        {% elif choices.role.student.selected %} Student
+                        {% elif choices.role.parent.selected %}Parent
+                        {% endif %}
+                        not registered
+                    </p>
+                    {% endif %} 
+                </tbody>
+            </table>
+        </div>
+    
+        <div class="col-2">
+            <div  id="changelist-filter">
+                <h2>FILTER</h2>
+            
+                <h3>By gender</h3> 
+                <ul>
+                    <li {% if choices.sex.All.selected %} class="selected" {% endif %}>
+                        <a href="{{choices.sex.All.query_string}}" title="All">All</a>
+                    </li>
+                    <li {% if choices.sex.Male.selected %} class="selected" {% endif %}>
+                        <a href="{{choices.sex.Male.query_string}}" title="Male">Male</a>
+                    </li>
+                    <li {% if choices.sex.Female.selected %} class="selected" {% endif %}>
+                        <a href="{{choices.sex.Female.query_string}}" title="Female">Female</a>
+                    </li> 
+                </ul>
+                <h3>By role</h3> 
+                <ul>
+                    <li {% if choices.role.all.selected %} class="selected" {% endif %}>
+                        <a href="{{choices.role.all.query_string}}" title="All">All</a>
+                    </li>
+                    <li {% if choices.role.admin.selected %} class="selected" {% endif %}>
+                        <a href="{{choices.role.admin.query_string}}" title="Admin">Admin</a>
+                    </li>
+                    <li {% if choices.role.teacher.selected %} class="selected" {% endif %}>
+                        <a href="{{choices.role.teacher.query_string}}" title="Teacher">Teacher </a>
+                    </li>
+                    <li {% if choices.role.student.selected %} class="selected" {% endif %}>
+                        <a href="{{choices.role.student.query_string}}" title="Student">Student</a>
+                    </li>
+                    <li {% if choices.role.parent.selected %} class="selected" {% endif %}>
+                        <a href="{{choices.role.parent.query_string}}" title="Parent">Parent</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

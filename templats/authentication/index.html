@@ -1,0 +1,31 @@
+{% extends 'inc/base.html' %}
+{% load i18n static %}
+{% block basecontent %}
+<!-- ERROR DISPLAY  -->
+{% if messages %}
+    <ul id="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                <!-- {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %} -->
+                {{ message|safe }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<div class="content-wrapper" {% if messages %} id="top-back"{% endif %} style="background-color: white;"> 
+    <!-- START PAGE CONTENT-->
+    <div class="page-content" > <!-- fade-in-up-->
+        {% block content %}
+        <h1 id="admin">Admin</h1>
+        {% endblock %}
+    </div>
+    <!-- END PAGE CONTENT-->
+    <!-- START FOOTER-->
+    <footer class="page-footer">
+        <div class="font-13">2018 © <b>AdminCAST</b> - All rights reserved.</div>
+        <a class="px-4" href="{% url 'index' %}" target="_blank">BUY PREMIUM</a>
+        <div class="to-top"><i class="fa fa-angle-double-up"></i></div>
+    </footer>
+    <!-- END FOOTER-->
+</div> 
+{% endblock %}

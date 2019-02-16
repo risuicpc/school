@@ -1,0 +1,171 @@
+{% extends 'inc/base_site.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ 'User Add page' }}</div>
+                
+                <div class="card-body">
+                    <form action="{% url 'user-exel' %}" method="POST" enctype='multipart/form-data'>
+                        {% csrf_token %}
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-md-right">
+                                <strong>Upload user from Exel</strong>
+                            </label>
+                            <div class="col-md-4">
+                                {% for field in exel.visible_fields %}
+                                    {% if exel.is_bound %}
+                                        {% if field.errors %}
+                                            {% render_field field class="form-control is-invalid" %}
+                                            {% for error in field.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% else %}
+                                        {% render_field field class="form-control" %}
+                                    {% endif %}
+                                    {% if field.help_text %}
+                                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-2">
+                                <input type="submit" value="Upload" class="btn btn-default" required>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <form method="POST" action="{% url 'create' %}">
+                        {% csrf_token %}
+
+                        <!-- {% if form.errors %}
+                        <p class="errornot"><strong>Please correct the error below.</strong></p>
+                        {% endif %} -->
+            
+                        <legend> Personal Information </legend>
+                        {% for field in form.visible_fields %}
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-md-right">
+                                {% if field.field.required %}
+                                    <strong>{{ field.label_tag }}</strong>
+                                {% else %}
+                                    {{ field.label_tag }}
+                                {% endif %}
+                            </label>
+                            <div class="col-md-6">
+                                {% if form.is_bound %}
+                                    {% if field.errors %}
+                                        {% if field.name == 'sex' %}
+                                        <div class="form-control is-invalid">
+                                            {% for f in field %}
+                                                {% render_field f %}
+                                            {% endfor %}
+                                        </div>
+                                        {% elif field.name == 'role' %}
+                                        <div class="form-control is-invalid">
+                                            {% for f in field %}
+                                                {% render_field f %}
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {% render_field field class="form-control is-invalid" %}
+                                        {% endif %}
+                                        {% for error in field.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% if field.name == 'sex' %}
+                                        <div class="form-control is-valid">
+                                            {% for f in field %}
+                                                {% render_field f %}
+                                            {% endfor %}
+                                        </div>
+                                        {% elif field.name == 'role' %}
+                                        <div class="form-control is-valid">
+                                            {% for f in field %}
+                                                {% render_field f %}
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {% render_field field class="form-control is-valid" %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% else %}
+                                    {% if field.name == 'sex' %}
+                                        {% for f in field %}
+                                            {% render_field f %}
+                                        {% endfor %}
+                                    {% elif field.name == 'role' %}
+                                        {% for f in field %}
+                                            {% render_field f %}
+                                        {% endfor %}
+                                    {% else %}
+                                        {% render_field field class="form-control" %}
+                                    {% endif %}
+                                {% endif %}
+                
+                                {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        
+                        
+                        <div id='collapseroom' class='collapse'>
+                            {% for field in s_room.visible_fields %}
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">
+                                    <strong>{{ field.label_tag }}</strong>
+                                </label>
+                                <div class="col-md-4">
+                                    {% if s_room.is_bound %}
+                                        {% if field.errors %}
+                                            {% render_field field class="form-control is-invalid" %}
+                                            {% for error in field.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            {% render_field field class="form-control is-valid" %}
+                                        {% endif %}
+                                    {% else %}
+                                        {% render_field field class="form-control" %}
+                                    {% endif %}
+                                    {% if field.help_text %}
+                                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+    
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-10">
+                                <button type="submit" name='save' value="save and add another" class="btn btn-PRIMARY" style="float: right;">
+                                    {{ 'Save and add another' }}
+                                </button>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="submit" name='save' value="save" class="btn btn-primary" style="float: right;">
+                                    {{ 'Save' }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>      
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends 'inc/base_site.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ 'User Detial and Update' }}</div>
+
+                <div class="card-body">
+                    <form method="POST" action=".">
+                        {% csrf_token %}
+                        <legend> Personal Information </legend>
+                        {% for field in form.visible_fields %}
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-md-right">
+                                {% if field.field.required %}
+                                    <strong>{{ field.label_tag }}</strong>
+                                {% else %}
+                                    {{ field.label_tag }}
+                                {% endif %}
+                            </label>
+                            <div class="col-md-6">
+                                {% if form.is_bound %}
+                                    {% if field.errors %}
+                                        {% if field.name == 'role' or field.name == 'sex' %}
+                                        <div class="form-control is-invalid">
+                                            {% for f in field %}
+                                                {% render_field f %}
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {% render_field field class="form-control is-invalid" %}
+                                        {% endif %}
+                                        {% for error in field.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% if field.name == 'role'  or field.name == 'sex' %}
+                                        <div class="form-control is-valid">
+                                            {% for f in field %}
+                                                {% render_field f %}
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                            {% render_field field class="form-control is-valid" %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% else %}
+                                    {% if field.name == 'role' or field.name == 'sex' %}
+                                        {% for f in field %}
+                                            {% render_field f %}
+                                        {% endfor %}
+                                    {% else %}
+                                        {% render_field field class="form-control" %}
+                                    {% endif %}
+                                {% endif %}
+                
+                                {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        {% for field in s_room.visible_fields %}
+                        {% if field.name == 'r' %}
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-md-right">
+                                 <strong>{{ field.label_tag }}</strong>
+                            </label>
+                            <div class="col-md-4">
+                                {% if s_room.is_bound %}
+                                    {% if field.errors %}
+                                        {% render_field field class="form-control is-invalid" %}
+                                        {% for error in field.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% render_field field class="form-control is-valid" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field field class="form-control" %}
+                                {% endif %}
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        
+                        <div class="form-group row mb-0">
+                            <div class="col-md-10">
+                                <a href="#delete" class="btn btn-danger" data-toggle="modal">{{ 'Delete' }}</a>
+                                <button type="submit" class="btn btn-primary" style="float:right;">
+                                    {{ 'Save' }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal modal-danger fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLable">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4  id="myModalLable">Delete Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">Are you sure you want to delete the selected user? All of the following objects and their related items will be deleted: </p>
+                <strong>Summary</strong>
+            
+                    <ul>
+                    <li>User: 1</li>
+                    <li>User-role relationships: {{ relationship }}</li>
+                    {% if rooms %}
+                        <li>Student rooms: 1</li>
+                    {% endif %}
+                </ul>
+                <strong>Objects</strong>
+            
+                    <ul>
+                        <li>User <a href="{% url 'edit' user.id%}">user</a> </li>
+                        <ul>
+                        {% for obj in user.role.all %}
+                            <li>User-role relationship: User_role object ({{obj.id}})</li>
+                        {% endfor %}
+                        {% if rooms %}
+                            <li>Student room: <a href=""> {{ rooms }}</a></li>
+                        {% endif %}
+                        </ul>
+                    </ul>
+            </div>
+            <form method="POST" action="{% url 'delete' user.id %}">
+            {% csrf_token %}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">No, Cancle</button>
+                    <button type="submit" class="btn btn-warning">Yes, I'm sure</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+        
+{% endblock %}

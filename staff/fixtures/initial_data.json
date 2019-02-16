@@ -1,0 +1,9 @@
+[
+    {
+      "model": "staff.Semister",
+      "pk": 1,
+      "fields": {
+        "semister": 1
+      }
+    }
+  ]

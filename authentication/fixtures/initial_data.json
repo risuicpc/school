@@ -1,0 +1,30 @@
+[
+    {
+      "model": "authentication.Role",
+      "pk": 1,
+      "fields": {
+        "r_name": "admin"
+      }
+    },
+    {
+      "model": "authentication.Role",
+      "pk": 2,
+      "fields": {
+        "r_name": "teacher"
+      }
+    },
+    {
+      "model": "authentication.Role",
+      "pk": 3,
+      "fields": {
+        "r_name": "student"
+      }
+    },
+    {
+      "model": "authentication.Role",
+      "pk": 4,
+      "fields": {
+        "r_name": "parent"
+      }
+    }
+  ]

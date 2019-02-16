@@ -1,0 +1,159 @@
+{% extends 'inc/base_site.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ 'Teach Add page' }}</div>
+                   
+                <div class="card-body">
+                    <form method="POST" action=".">
+                        {% csrf_token %}
+
+                        <legend> Register Teach Information </legend>
+                        {% for field in form.visible_fields %}
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-md-right"> <strong>{{ field.label_tag }}</strong> </label>
+                            <div class="col-md-8">
+                                {% if form.is_bound %}
+                                    {% if field.errors %}
+                                        {% if field.name == 'teacherID' %}
+                                            {% render_field field class="col-md-4 form-control is-invalid" %}
+                                            {% elif field.name == 'subjectID' %}
+                                            <div class="col-10 form-control is-invalid">
+                                                {% for g in grade %}
+                                                    <strong>Grade {{ g }}: </strong>
+                                                    {% for s in subject %}
+                                                        {% if g == s.grade %}
+                                                            {% for f in field %}
+                                                                {% if f.choice_label == s.fullname %}
+                                                                    {% render_field f.tag %} {{ s.s_name }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <br>
+                                                {% endfor %}
+                                            </div>
+                                        {% elif field.name == 'roomID' %}
+                                            <div class="col-10 form-control is-invalid">
+                                                {% for g in grade %}
+                                                    <strong>Grade {{ g }}: </strong>
+                                                    {% for r in room %}
+                                                        {% if g == r.grade %}
+                                                            {% for f in field %}
+                                                                {% if f.choice_label == r.fullname %}
+                                                                    {% render_field f.tag %} {{ r.r_name|upper }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <br>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        {% for error in field.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% if field.name == 'teacherID' %}
+                                            {% render_field field class="col-md-4 form-control is-valid" %}
+                                        {% elif field.name == 'subjectID' %}
+                                            <div class="col-10 form-control is-valid">
+                                                {% for g in grade %}
+                                                    <strong>Grade {{ g }}: </strong>
+                                                    {% for s in subject %}
+                                                        {% if g == s.grade %}
+                                                            {% for f in field %}
+                                                                {% if f.choice_label == s.fullname %}
+                                                                    {% render_field f.tag %} {{ s.s_name }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <br>
+                                                {% endfor %}
+                                            </div>
+                                        {% elif field.name == 'roomID' %}
+                                            <div class="col-10 form-control is-valid">
+                                                {% for g in grade %}
+                                                    <strong>Grade {{ g }}: </strong>
+                                                    {% for r in room %}
+                                                        {% if g == r.grade %}
+                                                            {% for f in field %}
+                                                                {% if f.choice_label == r.fullname %}
+                                                                    {% render_field f.tag %} {{ r.r_name|upper }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <br>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                {% else %}
+                                    {% if field.name == 'teacherID' %}
+                                        {% render_field field class="col-md-4 form-control" %}
+                                    {% elif field.name == 'subjectID' %}
+                                        {% for g in grade %}
+                                            <strong>Grade {{ g }}: </strong>
+                                            {% for s in subject %}
+                                                {% if g == s.grade %}
+                                                    {% for f in field %}
+                                                        {% if f.choice_label == s.fullname %}
+                                                            {% render_field f.tag %} {{ s.s_name }}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            <br>
+                                        {% endfor %}
+                                    {% elif field.name == 'roomID' %}
+                                        {% for g in grade %}
+                                            <strong>Grade {{ g }}: </strong>
+                                            {% for r in room %}
+                                                {% if g == r.grade %}
+                                                    {% for f in field %}
+                                                        {% if f.choice_label == r.fullname %}
+                                                            {% render_field f.tag %} {{ r.r_name|upper }}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            <br>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+                
+                                {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-10">
+                                <button type="submit" name='save' value="save and add another" class="btn btn-PRIMARY" style="float: right;">
+                                    {{ 'Save and add another' }}
+                                </button>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="submit" name='save' value="save" class="btn btn-primary" style="float: right;">
+                                    {{ 'Save' }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>      
+{% endblock %}

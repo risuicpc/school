@@ -1,0 +1,37 @@
+{% extends 'authentication/index.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <table class="table table-striped table-bordered-bottom table-responsive">
+            <thead class="thead">
+                <th><strong>No.
+                        &ThickSpace;&ThickSpace;&ThickSpace;&ThickSpace;
+                        &ThickSpace;&ThickSpace;&ThickSpace;&ThickSpace;
+                        &ThickSpace;&ThickSpace;&ThickSpace;&ThickSpace;
+                    Sectiom </strong></th> 
+                 
+            </thead>
+            <tbody>
+                {% if object_list %}
+                    {% for u in object_list %}
+                    <tr>
+                        <td> {{ forloop.counter }}
+                            &ThickSpace;&ThickSpace;&ThickSpace;&ThickSpace;
+                            &ThickSpace;&ThickSpace;&ThickSpace;&ThickSpace;
+                            &ThickSpace;&ThickSpace;&ThickSpace;&ThickSpace;
+                            &ThickSpace;&ThickSpace;&ThickSpace;&ThickSpace;
+                            <a href="{% url 'staff:r-edit' u.id %}">{{ u|title }}</a> </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <p id="no-user"> Room Not Registered </p>
+                {% endif %} 
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}

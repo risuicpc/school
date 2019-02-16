@@ -1,0 +1,162 @@
+{% extends 'authentication/index.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<hr>
+<div class="container bootstrap snippet">
+    <!-- <div class="row">
+  		<div class="col-sm-10"><h1>User name</h1></div>
+    	<div class="col-sm-2"><a href="/users" class="pull-right"><img title="profile image" class="img-circle img-responsive" src="http://www.gravatar.com/avatar/28fd20ccec6865e2d5f0e1f4446eb7bf?s=100"></a></div>
+    </div> -->
+    <div class="row">
+  		<div class="col-sm-3">
+            <div class="text-center">
+                <img src="{{ request.user.img.url }}" class="avatar img-circle img-thumbnail" alt="avatar" title="profile image" style="width:200px; height: 200px;">
+                               
+            </div></hr><br>
+
+            {% include 'authentication/attendace.html' %}
+            
+        </div>
+        <div class="col-sm-9">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a href="#nav-profile" class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="true">Profile</a>
+                    <a href="#nav-contact" class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" role="tab" aria-controls="nav-contact" aria-selected="false">Contact Address</a>
+                </div>
+            </nav>
+            <br>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                   <div class="row">
+                        <div class="col-6">
+                            <div class="row" style="margin-right: 0; border-right: 1px solid #e8e8e8;">
+                                <label class="col-md-6">
+                                    <strong> First Name : </strong>
+                                </label>
+                                <div class="col-6">
+                                    {{ request.user.f_name|lower|capfirst }}
+                                </div>
+                                <label class="col-md-6">
+                                    <strong> Father Name : </strong>
+                                </label>
+                                <div class="col-6">
+                                    {{ request.user.m_name|lower|capfirst }}
+                                </div>
+                                <label class="col-md-6">
+                                    <strong> Grand Father Name : </strong>
+                                </label>
+                                <div class="col-6">
+                                    {{ request.user.l_name|lower|capfirst }}
+                                </div>
+                                <label class="col-md-6">
+                                    <strong> Gander : </strong>
+                                </label>
+                                <div class="col-6">
+                                    {{ request.user.get_sex_display }}
+                                </div>
+                                <label class="col-md-6">
+                                    <strong> Age : </strong>
+                                </label>
+                                <div class="col-6">
+                                    {{ request.user.date_of_birth }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <label class="col-md-6">
+                                    <strong> Nationality : </strong>
+                                </label>
+                                <div class="col-6">
+                                    {{ 'Ethiopian' }}
+                                </div>
+                                <label class="col-md-6">
+                                    <strong> Disablity : </strong>
+                                </label>
+                                <div class="col-6">
+                                    {{ request.user.get_disablity_display }}
+                                </div>
+                                <label class="col-md-6">
+                                    <strong> Date Of Birth : </strong>
+                                </label>
+                                <div class="col-6">
+                                {% if request.user.date_of_birth %}
+                                    {{ request.user.date_of_birth }}
+                                {% endif %}
+                                </div>
+                                <label class="col-md-6">
+                                    <strong> Place Of Birth : </strong>
+                                </label>
+                                <div class="col-6">
+                                {% if request.user.place_of_birth %}
+                                    {{ request.user.place_of_birth|title }}
+                                {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <div class="col-6">
+                        <div class="row">
+                            <label class="col-md-6">
+                                <strong> Country : </strong>
+                            </label>
+                            <div class="col-6">
+                                {{ 'Ethiopia' }}
+                            </div>
+                            <label class="col-md-6">
+                                <strong> City : </strong>
+                            </label>
+                            <div class="col-6">
+                            {% if request.user.city %}
+                                {{ request.user.city|title }}
+                            {% endif %}
+                            </div>
+                            <label class="col-md-6">
+                                <strong> Sub City : </strong>
+                            </label>
+                            <div class="col-6">
+                            {% if request.user.subcity %}
+                                {{ request.user.subcity|title }}
+                            {% endif %}
+                            </div>
+                            <label class="col-md-6">
+                                <strong> Wereda : </strong>
+                            </label>
+                            <div class="col-6">
+                            {% if request.user.wereda %}
+                                {{ request.user.wereda|title }}
+                            {% endif %}
+                            </div>
+                            <label class="col-md-6">
+                                <strong> Home Number : </strong>
+                            </label>
+                            <div class="col-6">
+                            {% if request.user.home_number %}
+                                {{ request.user.home_number }}
+                            {% endif %}
+                            </div>
+                            <label class="col-md-6">
+                                <strong> E-Mail : </strong>
+                            </label>
+                            <div class="col-6">
+                            {% if request.user.email %}
+                                {{ request.user.email }}
+                            {% endif %}
+                            </div>
+                            <label class="col-md-6">
+                                <strong> Phone : </strong>
+                            </label>
+                            <div class="col-6">
+                                {{ request.user.phone }}
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

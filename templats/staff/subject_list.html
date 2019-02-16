@@ -1,0 +1,39 @@
+{% extends 'authentication/index.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <table class="table table-striped table-bordered-bottom table-responsive">
+            <thead class="thead">
+                <th><strong>No.</strong></th> 
+                <th><strong>SUBJECT</strong></th>
+                <th><strong>GRADE</strong></th>
+                
+                <th></th><th></th><th></th><th></th><th></th>
+                <th></th><th></th><th></th><th></th><th></th>
+                <th></th><th></th><th></th><th></th><th></th>
+            </thead>
+            <tbody>
+                {% if object_list %}
+                    {% for u in object_list %}
+                    <tr>
+                        <td> {{ forloop.counter }} </td>
+                        <td> <a href="{% url 'staff:s-edit' u.id %}">{{u.s_name|title }}</a></td>
+                        <td> {{u.grade }} </td>
+
+                        <th></th><th></th><th></th><th></th><th></th>
+                        <th></th><th></th><th></th><th></th><th></th>
+                        <th></th><th></th><th></th><th></th><th></th>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <p id="no-user"> Subject Not Registered </p>
+                {% endif %} 
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}

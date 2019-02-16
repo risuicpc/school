@@ -1,0 +1,99 @@
+{% extends 'authentication/index.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<hr>
+<div class="container bootstrap snippet">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="text-center">
+                <img src="{{ request.user.img.url }}" class="avatar img-circle img-thumbnail" alt="avatar" title="profile image" style="width:200px; height: 200px;">
+                
+            </div></hr><br>
+        </div>
+        <div class="col-sm-9">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a href="#nav-profile-edit" class="nav-item nav-link {% if p_or_s %} active {% endif %}"  data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="true">Edit Profile</a>
+                    {% if request.user.admin %}
+                         <a href="#nav-semister" class="nav-item nav-link {% if not p_or_s %} show active {% endif %}"  data-toggle="tab" role="tab" aria-controls="nav-contact" aria-selected="false">Change Semister</a>
+                    {% endif %}
+                </div>
+            </nav>
+            <br>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade {% if p_or_s %} show active {% endif %}" id="nav-profile-edit" role="tabpanel" aria-labelledby="nav-profile-tab">
+                
+                    <form action="{% url 'editprofile' %}" method="POST" enctype='multipart/form-data'>
+                    {% csrf_token %}
+                        <div class="row">
+                            {% for field in profile.visible_fields %}
+                            <label class="col-md-4 col-form-label text-md-center">
+                                <strong>{{ field.label_tag|title }}</strong>
+                            </label>
+                            <div class="col-6">
+                            {% if profile.is_bound %}
+                                {% if field.errors %}
+                                    {% render_field field class="form-control is-invalid" %}
+                                    {% for error in field.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    {% render_field field class="form-control is-valid" %}
+                                {% endif %}
+                            {% else %}
+                                {% render_field field class="form-control" %}
+                            {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-10">
+                                <button type="submit" name="save" value="profile" class="btn btn-rounded btn-primary" style="float:right;">
+                                    {{ 'Update' }}
+                                </button>
+                            </div>
+                        </div>      
+                    </form>   
+                </div>
+                <div class="tab-pane fade {% if not p_or_s %} show active {% endif %}" id="nav-semister" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-md-8">
+                                    <div class="card">
+                                        <div class="card-header">{{ 'Semister Update Page' }}</div>
+                                            
+                                        <div class="card-body">
+                                            <form method="POST" action=".">
+                                                {% csrf_token %}
+                        
+                                                {% for field in semister %}
+                                                <div class="form-group row">
+                                                    <label class="col-md-4 col-form-label text-md-right"> <strong>{{ field.label_tag }}</strong> </label>
+                                                    <div class="col-md-4 form-control">
+                                                       {{ field  }}
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                                
+                                                <div class="form-group row mb-0">
+                                                   <div class="col-md-6">
+                                                        <button type="submit" name='save' value="semister" class="btn btn-info" style="float: right;">
+                                                            {{ 'Update' }}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                </div>
+            </div>             
+        </div>
+    </div>
+</div>
+{% endblock %}
+    
